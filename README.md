@@ -1,0 +1,1 @@
+# cheatography-collector

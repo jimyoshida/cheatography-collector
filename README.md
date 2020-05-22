@@ -3,10 +3,11 @@
 Automatically download the targeted cheat cheets from Cheatography.com and combine them to a single PDF.
 Tested in Ubuntu-18.04.
 
-## Precondition
+## Prerequisites
 
-* 'qpdf' is installed
-* 'wget' is installed
+* make
+* qpdf
+* wget
 
 ## Usage
 

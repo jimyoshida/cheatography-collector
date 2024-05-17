@@ -1,9 +1,11 @@
 # cheatography-collector
 
-Automatically download the targeted cheat cheets from Cheatography.com and combine them to a single PDF.
-Tested in Ubuntu-18.04.
+Automatically fetch the targeted cheat cheets from Cheatography.com and combine them to a single PDF.
+Tested with Git for Windows environment.
 
 ## Prerequisites
+
+Install these modules by Chocolatey.
 
 * make
 * qpdf
@@ -11,11 +13,7 @@ Tested in Ubuntu-18.04.
 
 ## Usage
 
-Run these commands. 
+Edit `targets` to list the target cheat sheets by their expected file names.
+Then, run `make`.
 
-```bash
-vim targets # to list the target cheat sheets by their expected file names
-make
-```
-
-The output file is `__cheat-set.pdf`.
+The output file is `out/cheat-set.pdf`.

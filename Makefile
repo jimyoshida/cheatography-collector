@@ -1,10 +1,13 @@
-TARGETS := $(shell cat targets)
+OUTFILE := out/cheat-set.pdf
+PAGE_IDS := $(shell cat targets)
+PAGE_FILES := $(addprefix downloads/, $(PAGE_IDS))
 
-__cheat-set.pdf: $(TARGETS)
-	qpdf --empty --pages $(TARGETS) -- $@
+$(OUTFILE): $(PAGE_FILES)
+	mkdir -p out
+	qpdf --empty --pages $(PAGE_FILES) -- $@
 
-$(TARGETS):
-	bash download.sh $@
+$(PAGE_FILES):
+	bash fetch.sh $@
 
 clean:
-	rm *.pdf
+	rm -fr out downloads

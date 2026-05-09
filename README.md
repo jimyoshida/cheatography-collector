@@ -1,15 +1,12 @@
 # cheatography-collector
 
-Automatically fetch the targeted cheat cheets from Cheatography.com and combine them to a single PDF.
-Tested with Git for Windows environment.
+A tool to automatically fetch the specified cheat cheets from Cheatography.com and combine them to a single PDF.
 
 ## Prerequisites
 
-Install these modules by Chocolatey.
-
-* make
-* qpdf
-* wget
+* Git for Windows (provides bash and Unix utilities)
+* make (via Chocolatey etc.)
+* qpdf (via Chocolatey etc.)
 
 ## Usage
 

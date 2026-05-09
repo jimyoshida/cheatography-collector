@@ -14,6 +14,6 @@ URL=$(awk '{
 }' <<< $KEYS)
 
 mkdir -p downloads
-wget -O $FILENAME $URL || exit 1
+curl -o $FILENAME $URL || exit 1
 
 exit 0

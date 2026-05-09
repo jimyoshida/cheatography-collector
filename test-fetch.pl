@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use File::Path qw(remove_tree);
-use File::Basename;
 
 my $pass = 0;
 my $fail = 0;
@@ -25,26 +24,23 @@ sub ok {
 # Clean up before tests
 remove_tree('downloads') if -d 'downloads';
 
-# --- Test 1: Filename parsing ---
-# fetch.sh uses: sed -e 's/^.*\///; s/\.pdf//; s/_/ /'
-# Given "downloads/davechild_linux-command-line.pdf", it should produce "davechild linux-command-line"
-my $input = "downloads/davechild_linux-command-line.pdf";
-my $keys = `echo '$input' | sed -e 's/^.*\\///; s/\\.pdf//; s/_/ /'`;
-chomp $keys;
-ok($keys eq "davechild linux-command-line", "Filename parsing: '$input' -> '$keys'");
-
-# --- Test 2: URL construction ---
-# awk builds: https://cheatography.com/<user>/cheat-sheets/<slug>/pdf/
-my $url = `echo '$keys' | awk '{printf "https://cheatography.com/%s/cheat-sheets/%s/pdf/\\n", \$1, \$2}'`;
+# --- Test 1: Filename parsing + URL construction ---
+my $url = `bash fetch.sh --dry-run downloads/davechild_linux-command-line.pdf`;
 chomp $url;
 ok($url eq "https://cheatography.com/davechild/cheat-sheets/linux-command-line/pdf/",
-   "URL construction: '$url'");
+   "URL construction: davechild linux-command-line");
+
+# --- Test 2: URL construction ---
+$url = `bash fetch.sh --dry-run downloads/davechild_regular-expressions.pdf`;
+chomp $url;
+ok($url eq "https://cheatography.com/davechild/cheat-sheets/regular-expressions/pdf/",
+   "URL construction: davechild regular-expressions");
 
 # --- Test 3: Parsing with different filename ---
-$input = "downloads/gambit_docker.pdf";
-$keys = `echo '$input' | sed -e 's/^.*\\///; s/\\.pdf//; s/_/ /'`;
-chomp $keys;
-ok($keys eq "gambit docker", "Filename parsing: '$input' -> '$keys'");
+$url = `bash fetch.sh --dry-run downloads/gambit_docker.pdf`;
+chomp $url;
+ok($url eq "https://cheatography.com/gambit/cheat-sheets/docker/pdf/",
+   "URL construction: gambit docker");
 
 # --- Test 4: Directory creation ---
 system("bash fetch.sh downloads/davechild_linux-command-line.pdf");

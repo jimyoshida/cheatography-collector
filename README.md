@@ -34,13 +34,15 @@ No additional dependencies needed - Perl comes pre-installed on Ubuntu.
 
 The test suite (`test-fetch.pl`) verifies:
 
-- **File download**: Downloads files with correct names using curl
-- **Directory structure**: Creates `downloads/` directory for PDF files
-- **Filename parsing**: Converts underscores to spaces (e.g., `Python_Basics.pdf` → `Python Basics`)
-- **URL construction**: Builds correct Cheatography URLs from parsed filenames
-- **Error handling**: Gracefully handles missing files or download failures
-- **Multiple files**: Processes multiple files as Makefile would call
-- **Directory management**: Maintains proper directory structure
+1. **Filename parsing**: Converts underscores to spaces (e.g., `davechild_linux-command-line.pdf` → `davechild linux-command-line`)
+2. **URL construction**: Builds correct Cheatography URLs from parsed filenames
+3. **Filename parsing with different filename**: Verifies parsing works across multiple filename formats
+4. **Directory structure**: Creates `downloads/` directory for PDF files
+5. **File download**: Downloads files with correct names using curl
+6. **PDF validation**: Verifies downloaded files begin with a valid PDF header
+7. **Multiple files**: Processes multiple files as Makefile would call
+8. **Error handling**: Gracefully handles missing files or download failures
+9. **Directory management**: Maintains proper directory structure across multiple runs
 
 Run tests in WSL:
 ```bash

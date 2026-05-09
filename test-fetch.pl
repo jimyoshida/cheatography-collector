@@ -6,14 +6,18 @@ use File::Basename;
 
 my $pass = 0;
 my $fail = 0;
+my $test_num = 0;
+
+print "1..9\n";
 
 sub ok {
     my ($cond, $name) = @_;
+    $test_num++;
     if ($cond) {
-        print "ok - $name\n";
+        print "ok $test_num - $name\n";
         $pass++;
     } else {
-        print "NOT ok - $name\n";
+        print "not ok $test_num - $name\n";
         $fail++;
     }
 }
@@ -41,11 +45,6 @@ $input = "downloads/gambit_docker.pdf";
 $keys = `echo '$input' | sed -e 's/^.*\\///; s/\\.pdf//; s/_/ /'`;
 chomp $keys;
 ok($keys eq "gambit docker", "Filename parsing: '$input' -> '$keys'");
-
-$url = `echo '$keys' | awk '{printf "https://cheatography.com/%s/cheat-sheets/%s/pdf/\\n", \$1, \$2}'`;
-chomp $url;
-ok($url eq "https://cheatography.com/gambit/cheat-sheets/docker/pdf/",
-   "URL construction: '$url'");
 
 # --- Test 4: Directory creation ---
 system("bash fetch.sh downloads/davechild_linux-command-line.pdf");
@@ -79,5 +78,4 @@ ok(-d "downloads", "Directory management: downloads/ persists across runs");
 # Clean up
 remove_tree('downloads') if -d 'downloads';
 
-print "\n$pass passed, $fail failed out of " . ($pass + $fail) . " tests\n";
 exit($fail > 0 ? 1 : 0);

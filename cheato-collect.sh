@@ -36,8 +36,18 @@ fetch_file() {
 # When sourced (e.g. by tests), expose only the functions above and stop here
 [[ "${BASH_SOURCE[0]}" != "$0" ]] && return 0
 
+TARGETS_FILE="targets.txt"
 OUTFILE="out/cheat-set.pdf"
-TARGETS_FILE="targets"
+
+while getopts ":i:o:" opt; do
+    case "$opt" in
+        i) TARGETS_FILE="$OPTARG" ;;
+        o) OUTFILE="$OPTARG" ;;
+        :) echo "error: option -$OPTARG requires an argument" >&2; exit 1 ;;
+        \?) echo "error: unknown option -$OPTARG" >&2; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
 
 # Subcommand: download a single file (used by tests and manual runs)
 if [ "${1:-}" = "fetch" ]; then

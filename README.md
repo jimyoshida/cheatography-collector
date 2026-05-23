@@ -1,4 +1,4 @@
-# cheatography-collector
+# cgc (cheatography-collector)
 
 A tool to automatically fetch the specified cheat cheets from Cheatography.com and combine them to a single PDF.
 

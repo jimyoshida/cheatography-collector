@@ -1,0 +1,117 @@
+.TH CHEATO\-COLLECT 1 "2026-05-23" "cheatography-collector" "User Commands"
+.SH NAME
+cheato\-collect \- download Cheatography cheat sheets and merge them into a single PDF
+.SH SYNOPSIS
+.B cheato\-collect.sh
+[\fB\-i\fR \fItargets-file\fR]
+[\fB\-o\fR \fIoutfile\fR]
+.br
+.B cheato\-collect.sh
+.B fetch
+[\fB\-\-dry\-run\fR]
+\fIdownloads/author_sheet-name.pdf\fR
+.br
+.B cheato\-collect.sh
+.B clean
+.SH DESCRIPTION
+.B cheato\-collect.sh
+reads a list of cheat sheet identifiers from a targets file, downloads the
+corresponding PDFs from cheatography.com into the
+.I downloads/
+directory (skipping any already present), and merges them into a single PDF
+using
+.BR qpdf (1).
+.SH OPTIONS
+.TP
+.BI \-i " targets-file"
+Path to the targets file.
+Default:
+.IR targets.txt .
+.TP
+.BI \-o " outfile"
+Path for the merged output PDF.
+Default:
+.IR out/cheat-set.pdf .
+.SH SUBCOMMANDS
+.TP
+.B fetch [\-\-dry\-run] \fIdownloads/author_sheet-name.pdf\fR
+Download a single cheat sheet PDF.
+The filename must follow the convention
+.IR author_sheet-name.pdf ,
+which is translated to
+.IR https://cheatography.com/author/cheat-sheets/sheet-name/pdf/ .
+With
+.BR \-\-dry\-run ,
+print the resolved URL without downloading.
+.TP
+.B clean
+Remove the
+.I out/
+and
+.I downloads/
+directories.
+.SH FILES
+.TP
+.I targets.txt
+Default targets file.
+Each non-blank, non-comment line must be a filename of the form
+.IR author_sheet-name.pdf ,
+which is treated as a path under
+.IR downloads/ .
+Lines beginning with
+.B #
+and blank lines are ignored.
+.TP
+.I downloads/
+Directory where individual PDFs are cached.
+.TP
+.I out/cheat-set.pdf
+Default path for the merged output PDF.
+.SH EXAMPLES
+Download all sheets listed in
+.I targets.txt
+and merge into the default output:
+.PP
+.RS
+.EX
+cheato\-collect.sh
+.EE
+.RE
+.PP
+Use a custom targets file and output path:
+.PP
+.RS
+.EX
+cheato\-collect.sh \-i my\-list.txt \-o out/study.pdf
+.EE
+.RE
+.PP
+Inspect the URL that would be fetched without downloading:
+.PP
+.RS
+.EX
+cheato\-collect.sh fetch \-\-dry\-run downloads/davechild_linux-command-line.pdf
+.EE
+.RE
+.PP
+Remove all generated files:
+.PP
+.RS
+.EX
+cheato\-collect.sh clean
+.EE
+.RE
+.SH DEPENDENCIES
+.BR curl (1),
+.BR qpdf (1),
+.BR bash (1)\ 4.0+
+.SH EXIT STATUS
+.TP
+.B 0
+Success.
+.TP
+.B 1
+Missing or empty targets file, unknown option, or download failure.
+.SH SEE ALSO
+.BR curl (1),
+.BR qpdf (1)

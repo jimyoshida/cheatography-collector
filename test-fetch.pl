@@ -25,25 +25,25 @@ sub ok {
 remove_tree('downloads') if -d 'downloads';
 
 # --- Test 1: Filename parsing + URL construction ---
-my $url = `bash fetch.sh --dry-run downloads/davechild_linux-command-line.pdf`;
+my $url = `bash cheato-collect.sh fetch --dry-run downloads/davechild_linux-command-line.pdf`;
 chomp $url;
 ok($url eq "https://cheatography.com/davechild/cheat-sheets/linux-command-line/pdf/",
    "URL construction: davechild linux-command-line");
 
 # --- Test 2: URL construction ---
-$url = `bash fetch.sh --dry-run downloads/davechild_regular-expressions.pdf`;
+$url = `bash cheato-collect.sh fetch --dry-run downloads/davechild_regular-expressions.pdf`;
 chomp $url;
 ok($url eq "https://cheatography.com/davechild/cheat-sheets/regular-expressions/pdf/",
    "URL construction: davechild regular-expressions");
 
 # --- Test 3: Parsing with different filename ---
-$url = `bash fetch.sh --dry-run downloads/gambit_docker.pdf`;
+$url = `bash cheato-collect.sh fetch --dry-run downloads/gambit_docker.pdf`;
 chomp $url;
 ok($url eq "https://cheatography.com/gambit/cheat-sheets/docker/pdf/",
    "URL construction: gambit docker");
 
 # --- Test 4: Directory creation ---
-system("bash fetch.sh downloads/davechild_linux-command-line.pdf");
+system("bash cheato-collect.sh fetch downloads/davechild_linux-command-line.pdf");
 ok(-d "downloads", "Directory structure: downloads/ directory created");
 
 # --- Test 5: File download ---
@@ -60,18 +60,15 @@ if (-f "downloads/davechild_linux-command-line.pdf") {
 }
 
 # --- Test 7: Multiple files ---
-system("bash fetch.sh downloads/davechild_regular-expressions.pdf");
+system("bash cheato-collect.sh fetch downloads/davechild_regular-expressions.pdf");
 ok(-f "downloads/davechild_regular-expressions.pdf", "Multiple files: second PDF downloaded");
 
 # --- Test 8: Error handling - invalid target ---
-my $rc = system("bash fetch.sh downloads/nonexistent-user_nonexistent-sheet.pdf");
+my $rc = system("bash cheato-collect.sh fetch downloads/nonexistent-user_nonexistent-sheet.pdf");
 ok($rc != 0 || ! -f "downloads/nonexistent-user_nonexistent-sheet.pdf" || -z "downloads/nonexistent-user_nonexistent-sheet.pdf",
    "Error handling: invalid target does not produce a valid file");
 
 # --- Test 9: Directory management - downloads dir still intact after multiple runs ---
 ok(-d "downloads", "Directory management: downloads/ persists across runs");
-
-# Clean up
-remove_tree('downloads') if -d 'downloads';
 
 exit($fail > 0 ? 1 : 0);

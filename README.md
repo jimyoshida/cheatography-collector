@@ -11,21 +11,21 @@ A tool to automatically fetch the specified cheat cheets from Cheatography.com a
 ## Usage
 
 Edit `targets` to list the target cheat sheets by their expected file names.
-Then, run `bash build.sh` inside WSL.
+Then, run `bash cheato-collect.sh` inside WSL.
 
 The output file is `out/cheat-set.pdf`.
 
-To remove generated files, run `bash build.sh clean`.
+To remove generated files, run `bash cheato-collect.sh clean`.
 
 ### How It Works
 
-`build.sh` orchestrates the entire process:
+`cheato-collect.sh` orchestrates the entire process:
 
 1. Reads file names from `targets`
-2. Calls `fetch.sh` for each file to download PDFs from Cheatography.com (skipping files already present in `downloads/`)
+2. Calls `fetch_file` for each file to download PDFs from Cheatography.com (skipping files already present in `downloads/`)
 3. Combines all downloaded PDFs into a single output file using `qpdf`, preserving the order from `targets`
 
-The `fetch.sh` script handles individual file downloads by parsing the filename and constructing the appropriate Cheatography URL.
+`fetch_file` is a function defined in `cheato-collect.sh` that handles individual file downloads by parsing the filename and constructing the appropriate Cheatography URL.
 
 ## Development
 
